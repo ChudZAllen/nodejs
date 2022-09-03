@@ -74,7 +74,7 @@ campsiteRouter.route('/:campsiteId')
     .catch(err => next(err));
 });
 
-//comments router
+//campsite comments router
 
 campsiteRouter.route('/:campsiteId/comments')
 .get((req, res, next) => {

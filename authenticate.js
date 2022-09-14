@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 
 const config = require('./config.js');
 const user = require('./models/user')
+const { findById } = require('./models/user')
 
 exports.local = passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser())
@@ -39,3 +40,18 @@ exports.jwtPassport = passport.use(
 )
 
 exports.verifyUser = passport.authenticate('jwt', {session: false})
+
+
+//admin verification 
+
+const verifyAdmin = (req, res, next) => {
+    if (!req.user.admin) {
+        const err = new Error('You are not an admin');
+        err.status = 403;
+        return next(err);
+    } else {
+        return next()
+    }
+}
+
+exports.verifyAdmin = passport.authenticate('jwt', {session: false} )
